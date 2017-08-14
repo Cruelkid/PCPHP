@@ -4,6 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+    "hash": "dea521d1d4f00da7ebc0a2aaaed2c2a4",
     "content-hash": "78ec3f865085104e789f930b263acf5d",
     "packages": [
         {
@@ -99,7 +100,7 @@
                 "framework",
                 "yii"
             ],
-            "time": "2017-06-08T07:19:07+00:00"
+            "time": "2017-06-08 07:19:07"
         }
     ],
     "packages-dev": [],
