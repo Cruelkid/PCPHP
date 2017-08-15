@@ -11,24 +11,31 @@ class m170814_151803_create_table_role extends CDbMigration
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             ');
 
-        $this->execute('
-                INSERT INTO `tbl_role` (`id_role`, `name`) VALUES
-                (1, `teacher`),
-                (2, `coordinator`),
-                (3, `administrator`),
-                (4, `recruiter`),
-                (5, `guest`),
-                (6, `tse`);
-            ');
+        $builder=Yii::app()->db->schema->commandBuilder;
+        $command=$builder->createMultipleInsertCommand('tbl_role', [
+                ['id_role'=>1, 'name'=>'teacher'],
+                ['id_role'=>2, 'name'=>'coordinator'],
+                ['id_role'=>3, 'name'=>'administrator'],
+                ['id_role'=>4, 'name'=>'recruiter'],
+                ['id_role'=>5, 'name'=>'guest'],
+                ['id_role'=>6, 'name'=>'tse'],
+            ]);
+        $command->execute();
 
         $this->execute('
                 ALTER TABLE `tbl_role`
                 ADD PRIMARY KEY (`id_role`);
             ');
+
+        $this->execute('
+                ALTER TABLE `tbl_bind_user_role`
+                ADD CONSTRAINT `role` FOREIGN KEY (`role_id`) REFERENCES `tbl_role` (`id_role`) ON DELETE CASCADE ON UPDATE CASCADE;
+            ');
 	}
 
 	public function down()
 	{
+        $this->dropForeignKey('role', 'tbl_bind_user_role');
         $this->dropTable('tbl_role');
 	}
 

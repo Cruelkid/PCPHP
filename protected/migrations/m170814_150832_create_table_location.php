@@ -12,17 +12,18 @@ class m170814_150832_create_table_location extends CDbMigration
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             ');
 
-        $this->execute('
-                INSERT INTO `tbl_location` (`id_location`, `name`, `city`) VALUES
-                (1, `IF`, `Ivano-Frankivsk`),
-                (2, `Lv`, `Lviv`),
-                (3, `Dp`, `Dnipro`),
-                (4, `Ch`, `Chernivtsi`),
-                (5, `Kv`, `Kyiv`),
-                (6, `Kh`, `Kharkiv`),
-                (7, `Rv`, `Rivne`),
-                (8, `Sf`, `Sofia`);
-            ');
+        $builder=Yii::app()->db->schema->commandBuilder;
+        $command=$builder->createMultipleInsertCommand('tbl_location', [
+                ['id_location'=>1, 'name'=>'IF', 'city'=>'Ivano-Frankivsk'],
+                ['id_location'=>2, 'name'=>'Lv', 'city'=>'Lviv'],
+                ['id_location'=>3, 'name'=>'Dp', 'city'=>'Dnipro'],
+                ['id_location'=>4, 'name'=>'Ch', 'city'=>'Chernivtsi'],
+                ['id_location'=>5, 'name'=>'Kv', 'city'=>'Kyiv'],
+                ['id_location'=>6, 'name'=>'Kh', 'city'=>'Kharkiv'],
+                ['id_location'=>7, 'name'=>'Rv', 'city'=>'Rivne'],
+                ['id_location'=>8, 'name'=>'Sf', 'city'=>'Sofia'],
+            ]);
+        $command->execute();
 
         $this->execute('
                 ALTER TABLE `tbl_location`
@@ -37,6 +38,7 @@ class m170814_150832_create_table_location extends CDbMigration
 
 	public function down()
 	{
+        $this->dropForeignKey('location', 'tbl_user');
 		$this->dropTable('tbl_location');
 	}
 

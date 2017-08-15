@@ -15,10 +15,11 @@ class m170814_150951_create_table_group extends CDbMigration
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             ');
 
-        $this->execute('
-                INSERT INTO `tbl_group` (`id_group`, `name`, `location`, `date_start`, `date_finish`, `competention`) VALUES
-                (1, `Dp119-PHP`, 3, `0000-00-00 00:00:00`, NULL, 5);
-            ');
+        $builder=Yii::app()->db->schema->commandBuilder;
+        $command=$builder->createMultipleInsertCommand('tbl_group', [
+                ['id_group'=>1, 'name'=>'Dp119-PHP', 'location'=>3, 'date_start'=>`0000-00-00 00:00:00`, 'date_finish'=>NULL, 'competention'=>5],
+            ]);
+        $command->execute();
 
         $this->execute('
                 ALTER TABLE `tbl_group`
@@ -29,13 +30,13 @@ class m170814_150951_create_table_group extends CDbMigration
 
         $this->execute('
                 ALTER TABLE `tbl_group`
-                ADD CONSTRAINT `competention_group` FOREIGN KEY (`competention`) REFERENCES `tbl_competention` (`id_competention`) ON DELETE CASCADE ON UPDATE CASCADE,
                 ADD CONSTRAINT `location_group` FOREIGN KEY (`location`) REFERENCES `tbl_location` (`id_location`) ON DELETE CASCADE ON UPDATE CASCADE;
             ');
 	}
 
 	public function down()
 	{
+        $this->dropForeignKey('location_group', 'tbl_group');
         $this->dropTable('tbl_group');
 	}
 

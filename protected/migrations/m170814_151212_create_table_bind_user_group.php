@@ -11,8 +11,11 @@ class m170814_151212_create_table_bind_user_group extends CDbMigration
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         ');
 
-        $this->execute('INSERT INTO `tbl_bind_user_group` (`id_usergroup`, `user_id`, `group_id`) VALUES
-            (1, 14, 1);');
+        $builder=Yii::app()->db->schema->commandBuilder;
+        $command=$builder->createMultipleInsertCommand('tbl_bind_user_group', [
+                ['id_usergroup'=>1, 'user_id'=>14, 'group_id'=>1],
+            ]);
+        $command->execute();
 
         $this->execute('
                 ALTER TABLE `tbl_bind_user_group`
@@ -30,6 +33,8 @@ class m170814_151212_create_table_bind_user_group extends CDbMigration
 
 	public function down()
 	{
+        $this->dropForeignKey('group_id', 'tbl_bind_user_group');
+        $this->dropForeignKey('user_id', 'tbl_bind_user_group');
         $this->dropTable('tbl_bind_user_group');
 	}
 

@@ -11,41 +11,42 @@ class m170814_151645_create_table_bind_user_role extends CDbMigration
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         ');
 
-        $this->execute('
-                INSERT INTO `tbl_bind_user_role` (`id_userrole`, `user_id`, `role_id`) VALUES
-                    (1, 1, 1),
-                    (2, 2, 1),
-                    (3, 3, 1),
-                    (4, 4, 1),
-                    (5, 5, 1),
-                    (6, 6, 1),
-                    (7, 7, 1),
-                    (8, 8, 1),
-                    (9, 9, 1),
-                    (10, 10, 1),
-                    (11, 11, 1),
-                    (12, 12, 1),
-                    (13, 13, 1),
-                    (14, 14, 1),
-                    (15, 15, 1),
-                    (16, 16, 1),
-                    (17, 17, 1),
-                    (18, 18, 1),
-                    (19, 19, 1),
-                    (20, 20, 1),
-                    (21, 21, 1),
-                    (22, 22, 1),
-                    (23, 23, 1),
-                    (24, 1, 2),
-                    (25, 14, 2),
-                    (26, 18, 2),
-                    (27, 19, 2),
-                    (28, 21, 2),
-                    (29, 22, 2),
-                    (30, 23, 2),
-                    (31, 3, 3),
-                    (32, 4, 3);
-            ');
+        $builder=Yii::app()->db->schema->commandBuilder;
+        $command=$builder->createMultipleInsertCommand('tbl_bind_user_role', [
+                ['id_userrole'=>1, 'user_id'=>1, 'role_id'=>1],
+                ['id_userrole'=>2, 'user_id'=>2, 'role_id'=>1],
+                ['id_userrole'=>3, 'user_id'=>3, 'role_id'=>1],
+                ['id_userrole'=>4, 'user_id'=>4, 'role_id'=>1],
+                ['id_userrole'=>5, 'user_id'=>5, 'role_id'=>1],
+                ['id_userrole'=>6, 'user_id'=>6, 'role_id'=>1],
+                ['id_userrole'=>7, 'user_id'=>7, 'role_id'=>1],
+                ['id_userrole'=>8, 'user_id'=>8, 'role_id'=>1],
+                ['id_userrole'=>9, 'user_id'=>9, 'role_id'=>1],
+                ['id_userrole'=>10, 'user_id'=>10, 'role_id'=>1],
+                ['id_userrole'=>11, 'user_id'=>11, 'role_id'=>1],
+                ['id_userrole'=>12, 'user_id'=>12, 'role_id'=>1],
+                ['id_userrole'=>13, 'user_id'=>13, 'role_id'=>1],
+                ['id_userrole'=>14, 'user_id'=>14, 'role_id'=>1],
+                ['id_userrole'=>15, 'user_id'=>15, 'role_id'=>1],
+                ['id_userrole'=>16, 'user_id'=>16, 'role_id'=>1],
+                ['id_userrole'=>17, 'user_id'=>17, 'role_id'=>1],
+                ['id_userrole'=>18, 'user_id'=>18, 'role_id'=>1],
+                ['id_userrole'=>19, 'user_id'=>19, 'role_id'=>1],
+                ['id_userrole'=>20, 'user_id'=>20, 'role_id'=>1],
+                ['id_userrole'=>21, 'user_id'=>21, 'role_id'=>1],
+                ['id_userrole'=>22, 'user_id'=>22, 'role_id'=>1],
+                ['id_userrole'=>23, 'user_id'=>23, 'role_id'=>1],
+                ['id_userrole'=>24, 'user_id'=>1, 'role_id'=>2],
+                ['id_userrole'=>25, 'user_id'=>14, 'role_id'=>2],
+                ['id_userrole'=>26, 'user_id'=>18, 'role_id'=>2],
+                ['id_userrole'=>27, 'user_id'=>19, 'role_id'=>2],
+                ['id_userrole'=>28, 'user_id'=>21, 'role_id'=>2],
+                ['id_userrole'=>29, 'user_id'=>22, 'role_id'=>2],
+                ['id_userrole'=>30, 'user_id'=>23, 'role_id'=>2],
+                ['id_userrole'=>31, 'user_id'=>3, 'role_id'=>3],
+                ['id_userrole'=>32, 'user_id'=>4, 'role_id'=>3],
+            ]);
+        $command->execute();
 
         $this->execute('
                 ALTER TABLE `tbl_bind_user_role`
@@ -56,13 +57,13 @@ class m170814_151645_create_table_bind_user_role extends CDbMigration
 
         $this->execute('
                 ALTER TABLE `tbl_bind_user_role`
-                ADD CONSTRAINT `role` FOREIGN KEY (`role_id`) REFERENCES `tbl_role` (`id_role`) ON DELETE CASCADE ON UPDATE CASCADE,
                 ADD CONSTRAINT `user` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
             ');
 	}
 
 	public function down()
 	{
+        $this->dropForeignKey('user', 'tbl_bind_user_role');
         $this->dropTable('tbl_bind_user_role');
 	}
 

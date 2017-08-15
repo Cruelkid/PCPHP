@@ -12,25 +12,26 @@ class m170814_151330_create_table_competention extends CDbMigration
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             ');
 
-        $this->execute('
-                INSERT INTO `tbl_competention` (`id_competention`, `name`, `stream_id`) VALUES
-                (1, `WebUI`, 1),
-                (2, `JavaScriptUI`, 1),
-                (3, `LAMP`, 1),
-                (4, `Python`, 1),
-                (5, `Php`, 1),
-                (6, `.Net`, 1),
-                (7, `Java`, 1),
-                (8, `iOS`, 1),
-                (9, `C/C++`, 1),
-                (10, `Deplhi`, 1),
-                (11, `RDBMS`, 1),
-                (12, `MQC`, 2),
-                (13, `ATQC`, 2),
-                (14, `ISTQB`, 2),
-                (15, `DevOps`, 3),
-                (16, `UX`, 4);
-            ');
+        $builder=Yii::app()->db->schema->commandBuilder;
+        $command=$builder->createMultipleInsertCommand('tbl_competention', [
+                ['id_competention'=>1, 'name'=>'WebUI', 'stream_id'=>1],
+                ['id_competention'=>2, 'name'=>'JavaScriptUI', 'stream_id'=>1],
+                ['id_competention'=>3, 'name'=>'LAMP', 'stream_id'=>1],
+                ['id_competention'=>4, 'name'=>'Python', 'stream_id'=>1],
+                ['id_competention'=>5, 'name'=>'Php', 'stream_id'=>1],
+                ['id_competention'=>6, 'name'=>'.Net', 'stream_id'=>1],
+                ['id_competention'=>7, 'name'=>'Java', 'stream_id'=>1],
+                ['id_competention'=>8, 'name'=>'iOS', 'stream_id'=>1],
+                ['id_competention'=>9, 'name'=>'C/C++', 'stream_id'=>1],
+                ['id_competention'=>10, 'name'=>'Delphi', 'stream_id'=>1],
+                ['id_competention'=>11, 'name'=>'RDBMS', 'stream_id'=>1],
+                ['id_competention'=>12, 'name'=>'MQC', 'stream_id'=>2],
+                ['id_competention'=>13, 'name'=>'ATQC', 'stream_id'=>2],
+                ['id_competention'=>14, 'name'=>'ISTQB', 'stream_id'=>2],
+                ['id_competention'=>15, 'name'=>'DevOps', 'stream_id'=>3],
+                ['id_competention'=>16, 'name'=>'UX', 'stream_id'=>4],
+            ]);
+        $command->execute();
 
         $this->execute('
                 ALTER TABLE `tbl_competention`
@@ -39,13 +40,14 @@ class m170814_151330_create_table_competention extends CDbMigration
             ');
 
         $this->execute('
-                ALTER TABLE `tbl_competention`
-                ADD CONSTRAINT `stream_id` FOREIGN KEY (`stream_id`) REFERENCES `tbl_stream` (`id_stream`) ON DELETE CASCADE ON UPDATE CASCADE;
+                ALTER TABLE `tbl_group`
+                ADD CONSTRAINT `competention_group` FOREIGN KEY (`competention`) REFERENCES `tbl_competention` (`id_competention`) ON DELETE CASCADE ON UPDATE CASCADE;
             ');
 	}
 
 	public function down()
 	{
+        $this->dropForeignKey('competention_group', 'tbl_group');
         $this->dropTable('tbl_competention');
 	}
 
