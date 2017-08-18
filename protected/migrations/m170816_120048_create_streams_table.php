@@ -14,10 +14,10 @@ class m170816_120048_create_streams_table extends CDbMigration
 
         $builder=Yii::app()->db->schema->commandBuilder;
         $command=$builder->createMultipleInsertCommand('streams', [
-                ['id_stream'=>1, 'name'=>'SoftwareDevelopment'],
-                ['id_stream'=>2, 'name'=>'QualityControl'],
-                ['id_stream'=>3, 'name'=>'ITandCM'],
-                ['id_stream'=>4, 'name'=>'UX'],
+                ['name'=>'SoftwareDevelopment'],
+                ['name'=>'QualityControl'],
+                ['name'=>'ITandCM'],
+                ['name'=>'UX'],
             ]);
         $command->execute();
 	}

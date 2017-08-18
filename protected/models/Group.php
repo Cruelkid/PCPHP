@@ -68,7 +68,7 @@ class Group extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'name' => 'Name',
             'location' => 'Location',
@@ -77,7 +77,7 @@ class Group extends CActiveRecord
             'finish_date' => 'Finish Date',
             'budget' => 'Budget',
             'expert' => 'Expert',
-        );
+        ];
     }
 
     /**

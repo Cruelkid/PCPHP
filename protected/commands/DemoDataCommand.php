@@ -9,22 +9,20 @@ class DemoDataCommand extends CConsoleCommand
     // const USER_ROLES = Yii::app()->basePath . '/data/demo/user_roles.php';
     // const DIRECTIONS = Yii::app()->basePath . '/data/demo/directions.php';
 
-    public function actionFillOutTableUsers() {
-        $users = require_once Yii::app()->basePath . '/data/demo/users.php';
-        $command = Yii::app()->db->createCommand();
-        foreach ($users as $user) {
-            $command->insert('users', $user);
-        }
-        $command->execute();
-    }
-
     public function actionFillOutTableLocations() {
         $locations = require_once Yii::app()->basePath . '/data/demo/locations.php';
         $command = Yii::app()->db->createCommand();
         foreach ($locations as $location) {
             $command->insert('locations', $location);
         }
-        $command->execute();
+    }
+
+    public function actionFillOutTableUsers() {
+        $users = require_once Yii::app()->basePath . '/data/demo/users.php';
+        $command = Yii::app()->db->createCommand();
+        foreach ($users as $user) {
+            $command->insert('users', $user);
+        }
     }
 
     public function actionFillOutTableGroups() {
@@ -33,7 +31,6 @@ class DemoDataCommand extends CConsoleCommand
         foreach ($groups as $group) {
             $command->insert('groups', $group);
         }
-        $command->execute();
     }
 
     public function actionFillOutTableUserGroups() {
@@ -42,7 +39,6 @@ class DemoDataCommand extends CConsoleCommand
         foreach ($user_groups as $user_group) {
             $command->insert('user_groups', $user_group);
         }
-        $command->execute();
     }
 
     public function actionFillOutTableUserRoles() {
@@ -51,7 +47,6 @@ class DemoDataCommand extends CConsoleCommand
         foreach ($user_roles as $user_roles) {
             $command->insert('user_roles', $user_roles);
         }
-        $command->execute();
     }
 
     public function actionFillOutTableDirections() {
@@ -60,6 +55,5 @@ class DemoDataCommand extends CConsoleCommand
         foreach ($directions as $direction) {
             $command->insert('directions', $direction);
         }
-        $command->execute();
     }
 }
