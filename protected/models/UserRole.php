@@ -1,10 +1,10 @@
 <?php
 
-class UserGroup extends CActiveRecord
+class UserRole extends CActiveRecord
 {
     public $id;
     public $user_id;
-    public $group_id;
+    public $role_id;
 
     public static function model($className = __CLASS__)
     {
@@ -13,13 +13,14 @@ class UserGroup extends CActiveRecord
 
     public function tableName()
     {
-        return 'user_groups';
+        return 'user_roles';
     }
 
     public function relations()
     {
         return [
-            'group' => [self::BELONGS_TO, 'Group', 'group_id'],
+            'roles' => [self::BELONGS_TO, 'Role', 'role_id'],
+            'users' => [self::BELONGS_TO, 'User', 'user_id'],
         ];
     }
 }

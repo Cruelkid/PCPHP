@@ -78,7 +78,7 @@ class GroupComponent extends CApplicationComponent
 
         $criteria = new CDbCriteria();
         $criteria->alias = 'user_group';
-        $criteria->condition = "$userId = {$criteria->alias}.user";
+        $criteria->condition = "$userId = {$criteria->alias}.user_id";
         /** @var UserGroup[] $rows */
         $rows = UserGroup::model()->with('group')->findAll($criteria);
 
@@ -129,8 +129,8 @@ class GroupComponent extends CApplicationComponent
         $groupTeachers = $data['teachers'];
         foreach ($groupTeachers as $value) {
             $teacher = new Teacher();
-            $teacher->setAttribute('group', $groupId);
-            $teacher->setAttribute('user', $value);
+            $teacher->setAttribute('group_id', $groupId);
+            $teacher->setAttribute('user_id', $value);
             $teacher->save();
         }
 
@@ -138,7 +138,7 @@ class GroupComponent extends CApplicationComponent
         if (!empty($experts)) {
             foreach ($experts as $person) {
                 $expert = new Expert();
-                $expert->group = $groupId;
+                $expert->group_id = $groupId;
                 $expert->name = $person;
                 $expert->save();
             }
@@ -184,7 +184,7 @@ class GroupComponent extends CApplicationComponent
 
         $criteria = new CDbCriteria();
         $criteria->alias = 'user_group';
-        $criteria->condition = "$idGroup = {$criteria->alias}.group";
+        $criteria->condition = "$idGroup = {$criteria->alias}.group_id";
         $rows = UserGroup::model()->with('group')->findAll($criteria);
         foreach ($rows as $row) {
             $row->delete();
@@ -193,14 +193,14 @@ class GroupComponent extends CApplicationComponent
         $groupTeachers = $data['teachers'];
         foreach ($groupTeachers as $value) {
             $teacher = new Teacher();
-            $teacher->setAttribute('group', $idGroup);
-            $teacher->setAttribute('user', $value);
+            $teacher->setAttribute('group_id', $idGroup);
+            $teacher->setAttribute('user_id', $value);
             $teacher->save();
         }
 
         $criteria = new CDbCriteria();
         $criteria->alias = 'group_experts';
-        $criteria->condition = "$idGroup = {$criteria->alias}.group";
+        $criteria->condition = "$idGroup = {$criteria->alias}.group_id";
         $rows = Expert::model()->findAll($criteria);
         foreach ($rows as $row) {
             $row->delete();
@@ -210,7 +210,7 @@ class GroupComponent extends CApplicationComponent
         if (!empty($experts)) {
             foreach ($experts as $person) {
                 $expert = new Expert();
-                $expert->group = $idGroup;
+                $expert->group_id = $idGroup;
                 $expert->name = $person;
                 $expert->save();
             }
@@ -223,6 +223,86 @@ class GroupComponent extends CApplicationComponent
         $cache = Yii::app()->cache;
         $cache['groupId'] = $selectedGroup[0];
         $cache['groupName'] = $selectedGroup[1];
-        $cache['groupDirection'] = $selectedGroup[2];
+        $cache['groupLocationId'] = $selectedGroup[2];
+        $cache['groupLocationName'] = $selectedGroup[3];
+        $cache['groupDirectionId'] = $selectedGroup[4];
+        $cache['groupDirectionName'] = $selectedGroup[5];
+        $cache['groupStartDate'] = $selectedGroup[6];
+        $cache['groupFinishDate'] = $selectedGroup[7];
+        $cache['groupBudget'] = $selectedGroup[8];
+        $experts = $this->getExperts($selectedGroup[0]);
+
+        if (!empty($experts)) {
+            $experts = implode(', ', $experts);
+        } else {
+            $experts = '';
+        }
+        $cache['groupExperts'] = $experts;
+
+        $teachers = $this->getTeachers($selectedGroup[0]);
+        foreach ($teachers as $teacher) {
+            $groupTeachers[] = $teacher['teacher_first_name'] . " " . $teacher['teacher_last_name'];
+        }
+
+        if (!empty($groupTeachers)) {
+            $groupTeachers = implode(', ', $groupTeachers);
+        } else {
+            $groupTeachers = '';
+        }
+        $cache['groupTeachers'] = $groupTeachers;
+
+        return ['groupCached' => true];
+    }
+
+    public function getExperts($groupId)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'expert';
+        $criteria->condition = "{$criteria->alias}.group_id = $groupId";
+        $rows = Expert::model()->findAll($criteria);
+
+        $experts = [];
+        if (empty($rows)) {
+            return $experts;
+        }
+        foreach ($rows as $row) {
+            $experts[] = $row->name;
+        }
+        return $experts;
+    }
+
+    public function getTeachers($groupId)
+    {
+        $criteria1 = new CDbCriteria();
+        $criteria1->alias = 'user_group';
+        $criteria1->condition = "{$criteria1->alias}.group_id = $groupId";
+        $rows1 = UserGroup::model()->findAll($criteria1);
+
+        $groupUsers = [];
+        if (empty($rows1)) {
+            return $rows1;
+        }
+
+        foreach ($rows1 as $row) {
+            $groupUsers[] = $row->user_id;
+        }
+
+        $criteria2 = new CDbCriteria();
+        $criteria2->alias = 'user_role';
+        $criteria2->addInCondition("{$criteria2->alias}.user_id", $groupUsers);
+        $criteria2->addCondition("roles.name = 'teacher'", "AND");
+        $rows2 = UserRole::model()->with('roles')->with('users')->findAll($criteria2);
+
+        $teachers = [];
+        if (empty($rows2)) {
+            return $rows2;
+        }
+        foreach ($rows2 as $row2) {
+            $teachers[] = [
+                'teacher_first_name' => $row2->getRelated('users')->first_name,
+                'teacher_last_name' => $row2->getRelated('users')->last_name,
+            ];
+        }
+        return $teachers;
     }
 }
