@@ -33,7 +33,7 @@ class StudentComponent extends CApplicationComponent
 
     public function validate($arr)
     {
-        if (!count($arr) < 9 ) {
+        if (!count($arr) < 9) {
             return false;
         }
         return (is_string($arr[0])
