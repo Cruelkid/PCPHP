@@ -1,8 +1,22 @@
+<?php
+if (!isset($groupName)) {
+    $groupName = '';
+}if (!isset($groupBudget)) {
+    $groupBudget = '';
+}if (!isset($groupDirectionName)) {
+    $groupDirectionName = '';
+}if (!isset($groupLocationName)) {
+    $groupLocationName = '';
+}if (!isset($groupStartDate)) {
+    $groupStartDate = '';
+}
+?>
+
 <div class="modal fade" id="groupModal">
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div class="container-fluid" id="modal">
-                <div class="groups"> 
+                <div class="groups">
                     <div id="dashed" class="row">
                         <div class="col-md-2 col-xs-12 col-sm-12">
                             <label for="groupName">Group Name:</label>
@@ -11,14 +25,23 @@
                             <div class="error">
                                 <span class="errorName"></span>
                             </div>
-                            <input type="text" name="groupName" class="groupName" title="groupName" required>
+                            <input type="text" name="groupName" class="groupName" title="groupName" value="<?php echo $groupName;?>" required>
                         </div>
                         <div class="col-md-2 col-xs-12 col-sm-12">
                             <label for="budgetOwner">Budget owner</label>
                         </div>
                         <div class="col-md-4 col-xs-12 col-sm-12">
-                            <button class="btn btn-default active" id="SsOwner"> SoftServe </button>
-                            <button class="btn btn-default" id="OgOwner"> OpenGroup </button>
+                            <?php
+                            if ($groupBudget === 'softserve' || $groupBudget === '') {
+                                $SsOwner = 'active';
+                                $OgOwner = '';
+                            } else {
+                                $SsOwner = '';
+                                $OgOwner = 'active';
+                            }
+                            ?>
+                            <button class="btn btn-default <?php echo $SsOwner?>" id="SsOwner"> SoftServe </button>
+                            <button class="btn btn-default<?php echo $OgOwner?>" id="OgOwner"> OpenGroup </button>
                         </div>
                     </div>
                     <br>
@@ -27,7 +50,7 @@
                             <label for="direction">Direction</label>
                         </div>
                         <div class="col-md-4 col-xs-12 col-sm-12">
-                            <select class="direction" title="direction" required></select>
+                            <select class="direction" title="direction" name="<?php echo $groupDirectionName;?>" required></select>
                         </div>
                         <div class="col-md-2 col-xs-12 col-sm-12">
                             <label for="startDate">Start date:</label>
@@ -36,7 +59,7 @@
                             <div class="error">
                                 <span class="errorDate"></span>
                             </div>
-                            <input type="date"  name="startDate" title=startDate" class="startDate">
+                            <input type="date"  name="startDate" title=startDate" class="startDate" value="<?php echo $groupStartDate;?>">
                         </div>
                     </div>
                     <br>
@@ -45,7 +68,7 @@
                             <label for="location">Location</label>
                         </div>
                         <div class="col-md-4 col-xs-12 col-sm-12">
-                            <select class="location" title="location" disabled></select>
+                            <select class="location" title="location" name="<?php echo $groupLocationName;?>" disabled></select>
                         </div>
                         <div class="col-md-2 col-xs-12 col-sm-12">
                             <label for="finishDate">Finish date:</label>

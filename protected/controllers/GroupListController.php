@@ -22,6 +22,7 @@ class GroupListController extends BaseController
     {
         /** @var GroupComponent $component */
         $component = Yii::app()->getComponent('Group');
-        $component->cacheSelectedGroup($selectedgroup);
+        $result = $component->cacheSelectedGroup($selectedgroup);
+        $this->renderJSON($result);
     }
 }

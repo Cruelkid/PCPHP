@@ -10,6 +10,7 @@ class GroupList {
         this.groupInfoElement = groupInfoElement;
         this.groupList = [];
         this.myGroupList = [];
+        this.selectedGroup = [];
         this.pageNumber = 1;
         this.pageQuantity = 1;
         this.defineElements();
@@ -94,21 +95,29 @@ class GroupList {
                     uncheckGroups(i);
                     let groupId = groupListArr[i].group_id,
                         groupName = groupListArr[i].group_name,
-                        groupLocation = groupListArr[i].group_location,
-                        groupDirection = groupListArr[i].direction_name,
-                        groupStartDate = groupListArr[i].start_date,
-                        groupBudget = groupListArr[i].budget,
-                        groupDirectionId = groupListArr[i].direction_id,
                         groupLocationId = groupListArr[i].group_location_id,
+                        groupLocationName = groupListArr[i].group_location,
+                        groupDirectionId = groupListArr[i].direction_id,
+                        groupDirectionName = groupListArr[i].direction_name,
+                        groupStartDate = groupListArr[i].start_date,
                         groupFinishDate = groupListArr[i].finish_date,
-                        groupCacheInfo = [groupId, groupName, groupDirection],
-                        groupInfo = [groupId, groupName, groupLocation, groupDirection, groupStartDate, groupBudget, groupDirectionId, groupLocationId, groupFinishDate];
-                    this.groupInfoElement.showGroupInfo(groupInfo);
-
-                    Frame.ajaxRequest('GET', this.urlCacheSelectedGroup + '/selectedgroup/' + groupCacheInfo);
+                        groupBudget = groupListArr[i].budget,
+                        groupCacheInfo = [groupId, groupName, groupLocationId, groupLocationName, groupDirectionId, groupDirectionName, groupStartDate, groupFinishDate, groupBudget];
+                    Frame.ajaxResponse('GET', this.urlCacheSelectedGroup + '/selectedgroup/' + encodeURIComponent(groupCacheInfo), this.showGroup.bind(this));
                 }
             });
         }
+    }
+
+    showGroup(response) {
+        if (response['groupCached']) {
+            Frame.ajaxResponse('GET', this.urlShowGroup, this.renderView.bind(this), true, true);
+        }
+    }
+
+    renderView(response) {
+      let el = document.querySelector('.center-area');
+      el.innerHTML = response;
     }
 
     getMyGroupList() {
