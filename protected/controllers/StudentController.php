@@ -6,19 +6,17 @@ class StudentsController extends BaseController
     {
         $model = new FileUpload();
         $form = new CForm('application.views.site.uploadForm', $model);
+        $uploadedFile = CUploadedFile::getInstance($form->model, 'file');
         
         if ($form->submitted('submit') && $form->validate()) {
-            if (CUploadedFile::getInstance($form->model, 'file')->getExtensionName() == "csv") {
-                $form->model->file = CUploadedFile::getInstance($form->model, 'file');
-                $component = Yii::app()->getComponent('Student');
+            $form->model->file = $uploadedFile;
+            $component = Yii::app()->getComponent('Student');
+            if ($uploadedFile->getExtensionName() == "csv") {
                 $component->importCsv($form->model->file->getTempName());
-                $this->redirect(['upload']);
-            } else if (CUploadedFile::getInstance($form->model, 'file')->getExtensionName() == "txt") {
-                $form->model->file = CUploadedFile::getInstance($form->model, 'file');
-                $component = Yii::app()->getComponent('Student');
+            } else if ($uploadedFile->getExtensionName() == "txt") {
                 $component->importTxt($form->model->file->getTempName());
-                $this->redirect(['upload']);
             }
+            $this->redirect(['upload']);
         }
         $this->render('upload', ['form' => $form]);
     }
