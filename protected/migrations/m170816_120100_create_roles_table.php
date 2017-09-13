@@ -2,8 +2,8 @@
 
 class m170816_120100_create_roles_table extends CDbMigration
 {
-	public function up()
-	{
+    public function up()
+    {
         $this->execute('
             CREATE TABLE IF NOT EXISTS `roles` (
             `id` INT NOT NULL AUTO_INCREMENT,
@@ -12,31 +12,31 @@ class m170816_120100_create_roles_table extends CDbMigration
             ENGINE = InnoDB DEFAULT CHARSET=utf8;
         ');
 
-        $builder=Yii::app()->db->schema->commandBuilder;
-        $command=$builder->createMultipleInsertCommand('roles', [
-                ['id_role'=>1, 'name'=>'teacher'],
-                ['id_role'=>2, 'name'=>'coordinator'],
-                ['id_role'=>3, 'name'=>'administrator'],
-                ['id_role'=>4, 'name'=>'recruiter'],
-                ['id_role'=>5, 'name'=>'guest'],
-                ['id_role'=>6, 'name'=>'tse'],
-            ]);
+        $builder = Yii::app()->db->schema->commandBuilder;
+        $command = $builder->createMultipleInsertCommand('roles', [
+            ['id' => 1, 'name' => 'teacher'],
+            ['id' => 2, 'name' => 'coordinator'],
+            ['id' => 3, 'name' => 'administrator'],
+            ['id' => 4, 'name' => 'recruiter'],
+            ['id' => 5, 'name' => 'guest'],
+            ['id' => 6, 'name' => 'tse'],
+        ]);
         $command->execute();
-	}
+    }
 
-	public function down()
-	{
-		$this->dropTable('roles');
-	}
+    public function down()
+    {
+        $this->dropTable('roles');
+    }
 
-	/*
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
-	{
-	}
+    /*
+    // Use safeUp/safeDown to do migration with transaction
+    public function safeUp()
+    {
+    }
 
-	public function safeDown()
-	{
-	}
-	*/
+    public function safeDown()
+    {
+    }
+    */
 }

@@ -2,8 +2,8 @@
 
 class m170816_120226_create_directions_table extends CDbMigration
 {
-	public function up()
-	{
+    public function up()
+    {
         $this->execute('
             CREATE TABLE IF NOT EXISTS `directions` (
             `id` INT NOT NULL AUTO_INCREMENT,
@@ -20,25 +20,25 @@ class m170816_120226_create_directions_table extends CDbMigration
 
         $this->execute('
             ALTER TABLE `groups`
-            ADD CONSTRAINT `direction` FOREIGN KEY (`direction`) REFERENCES `directions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+            ADD CONSTRAINT `direction` FOREIGN KEY (`direction_id`) REFERENCES `directions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
         ');
-	}
+    }
 
-	public function down()
-	{
+    public function down()
+    {
         $this->dropForeignKey('stream', 'directions');
-		$this->dropForeignKey('direction', 'groups');
+        $this->dropForeignKey('direction', 'groups');
         $this->dropTable('directions');
-	}
+    }
 
-	/*
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
-	{
-	}
+    /*
+    // Use safeUp/safeDown to do migration with transaction
+    public function safeUp()
+    {
+    }
 
-	public function safeDown()
-	{
-	}
-	*/
+    public function safeDown()
+    {
+    }
+    */
 }

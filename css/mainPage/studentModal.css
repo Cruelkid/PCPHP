@@ -1,0 +1,51 @@
+.studentAdding {
+    padding: 5%;
+    background-color: white;
+    border-radius: 7px;
+}
+
+.button-area{
+    text-align: center;
+}
+
+.submit, .close-modal {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 2px 0 rgba(0,0,0,.1)
+}
+
+.submit{
+    background-color: #171B65;
+}
+
+.close-modal {
+    background-color: #00b3ee;
+}
+
+.submit > span {
+    color: white;
+}
+
+.close-modal > span {
+    color: white;
+}
+
+.add-expert, .add-teacher{
+    color: black;
+}
+
+.errorName, .errorExperts, .errorDate{
+    color:red;
+}
+
+.groupName, .incomingTest, .firstName, .entryScore, .lastName, .approvedBy, .engLevel, .customerExpert {
+    min-width: 180px;
+    height: 30px;
+    border: solid 2px black;
+    border-radius: 2px;
+    box-shadow: 0 0 10px black;
+}
+

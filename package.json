@@ -1,23 +1,24 @@
 {
-  "name": "pcphp",
+  "name": "PCPHP",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "SoftServe`s IT Academy educational project.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/droyenko/PCPHP.git"
+    "url": "git+https://github.com/SSITA/PCPHP.git"
   },
-  "author": "",
-  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/droyenko/PCPHP/issues"
+    "url": "https://github.com/SSITA/PCPHP/issues"
   },
-  "homepage": "https://github.com/droyenko/PCPHP#readme",
+  "homepage": "https://github.com/SSITA/PCPHP#readme",
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-preset-env": "^1.6.0"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1"
   }
 }

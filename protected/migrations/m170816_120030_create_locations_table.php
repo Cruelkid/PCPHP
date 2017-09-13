@@ -2,8 +2,8 @@
 
 class m170816_120030_create_locations_table extends CDbMigration
 {
-	public function up()
-	{
+    public function up()
+    {
         $this->execute('
             CREATE TABLE IF NOT EXISTS `locations` (
             `id` INT NOT NULL AUTO_INCREMENT,
@@ -15,24 +15,24 @@ class m170816_120030_create_locations_table extends CDbMigration
 
         $this->execute('
             ALTER TABLE `users`
-            ADD CONSTRAINT `user_location` FOREIGN KEY (`location`) REFERENCES `locations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+            ADD CONSTRAINT `user_location` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
         ');
-	}
+    }
 
-	public function down()
-	{
+    public function down()
+    {
         $this->dropForeignKey('user_location', 'users');
         $this->dropTable('locations');
-	}
+    }
 
-	/*
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
-	{
-	}
+    /*
+    // Use safeUp/safeDown to do migration with transaction
+    public function safeUp()
+    {
+    }
 
-	public function safeDown()
-	{
-	}
-	*/
+    public function safeDown()
+    {
+    }
+    */
 }

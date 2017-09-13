@@ -2,8 +2,8 @@
 
 class m170816_120208_create_user_roles_table extends CDbMigration
 {
-	public function up()
-	{
+    public function up()
+    {
         $this->execute('
             CREATE TABLE IF NOT EXISTS `user_roles` (
             `id` INT NOT NULL AUTO_INCREMENT,
@@ -15,26 +15,26 @@ class m170816_120208_create_user_roles_table extends CDbMigration
 
         $this->execute('
             ALTER TABLE `user_roles`
-            ADD CONSTRAINT `user_role` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+            ADD CONSTRAINT `user_role` FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
             ADD CONSTRAINT `role` FOREIGN KEY (`role`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
         ');
-	}
+    }
 
-	public function down()
-	{
-		$this->dropForeignKey('user_role', 'user_roles');
+    public function down()
+    {
+        $this->dropForeignKey('user_role', 'user_roles');
         $this->dropForeignKey('role', 'user_roles');
         $this->dropTable('user_roles');
-	}
+    }
 
-	/*
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
-	{
-	}
+    /*
+    // Use safeUp/safeDown to do migration with transaction
+    public function safeUp()
+    {
+    }
 
-	public function safeDown()
-	{
-	}
-	*/
+    public function safeDown()
+    {
+    }
+    */
 }
